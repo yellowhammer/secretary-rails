@@ -77,7 +77,7 @@ module Secretary
     # human-readable objects.
     def versioned_changes
       modified_changes = {}
-      raw_changes = self.changes.select {|k,_| versioned_attribute?(k)}.to_hash
+      raw_changes = __raw_changes.select {|k,_| versioned_attribute?(k)}.to_hash
 
       raw_changes.each do |key, (previous, current)|
         if reflection = self.class.reflect_on_association(key.to_sym)
@@ -140,6 +140,22 @@ module Secretary
 
     def reset_versioned_changes
       @__versioned_changes = nil
+    end
+
+    def reset_after_save_changes
+      @__after_save_changes = nil
+    end
+
+    def empty_after_save_changes
+      @__after_save_changes = {}
+    end
+
+    def __after_save_changes
+      @__after_save_changes ||= self.saved_changes
+    end
+
+    def __raw_changes
+      self.changes_to_save.presence || __after_save_changes
     end
   end
 end

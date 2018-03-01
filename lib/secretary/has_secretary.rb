@@ -44,10 +44,14 @@ module Secretary
 
         attr_accessor :logged_user_id
 
+        after_save :reset_after_save_changes
+
         after_save :generate_version,
           :if => lambda { __versioned_changes.present? }
 
         after_save :reset_versioned_changes
+
+        after_save :empty_after_save_changes
 
         include InstanceMethodsOnActivation
       end
