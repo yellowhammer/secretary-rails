@@ -1,5 +1,6 @@
 module Secretary
   class Version < ActiveRecord::Base
+    self.table_name = 'secretary_versions'
     serialize :object_changes
 
     belongs_to :versioned, :polymorphic => true

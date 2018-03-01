@@ -63,7 +63,7 @@ ActiveRecord::Schema.define do
     t.timestamps null: false
   end
 
-  create_table "versions", :force => true do |t|
+  create_table "secretary_versions", :force => true do |t|
     t.integer   "version_number"
     t.string    "versioned_type"
     t.integer   "versioned_id"
