@@ -40,7 +40,7 @@ module Secretary
         has_many :versions,
           :class_name   => "Secretary::Version",
           :as           => :versioned,
-          :dependent    => :destroy
+          :dependent    => :delete_all
 
         attr_accessor :logged_user_id
 
