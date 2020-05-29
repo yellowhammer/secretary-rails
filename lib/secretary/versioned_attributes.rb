@@ -70,7 +70,6 @@ module Secretary
       end
     end
 
-
     # The hash that gets serialized into the `object_changes` column.
     #
     # This takes the `changes` hash and processes the associations to be
@@ -102,7 +101,7 @@ module Secretary
         # is going to destroy this object on save,
         # so we just have to add the association normally
         # and then filter it out here.
-        if previous != current
+        if versioned_attr_change?(previous, current)
           modified_changes[key] = [previous, current]
         end
       end
@@ -126,6 +125,14 @@ module Secretary
 
 
     private
+
+    def versioned_attr_change?(previous, current)
+      if previous.is_a?(Time) || current.is_a?(Time)
+        previous.to_s != current.to_s
+      else
+        previous != current
+      end
+    end
 
     # Memoized version changes.
     # This is just so when we're near the end of an object's journey to
